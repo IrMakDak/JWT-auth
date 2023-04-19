@@ -4,6 +4,7 @@ export const contentTypeHeader = {
 
 export const LocalStorageAppeal = "user";
 export const CSSActiveClass = " active";
+export const ChartTitle = "Users Gained between 2016-2020";
 
 export enum messages {
   INCORRECT_DATA = "Username or password is incorrect",
@@ -30,20 +31,24 @@ export enum Paths {
 }
 export interface IProps {
   href: string;
-  exact: boolean;
-  children: [];
+  exact?: boolean;
+  children: JSX.Element | JSX.Element[];
+  className?: string;
 }
 export interface IRequestBody {
   username: string;
   password: string;
 }
-export interface IUser {
+export interface IUserNoPassword {
   id: number;
   username: string;
-  password: string;
   firstName: string;
   lastName: string;
 }
+export interface IUser extends IUserNoPassword {
+  password: string;
+}
+
 export interface IUserStorageObject {
   id: number;
   username: string;

@@ -18,6 +18,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/components/NavLink.jsx", "src/styles/styledComponents.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/components/NavLink.tsx", "src/styles/styledComponents.js", "src/components/Nav.tsx"],
   "exclude": ["node_modules"]
 }

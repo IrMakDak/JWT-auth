@@ -5,7 +5,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 
 import { userService } from "../services/service";
-import { messages } from "../naming";
+import { messages, IRequestBody, Paths, IUser } from "../naming";
 import {
   StyledHeaderRadius,
   StyledInput,
@@ -15,13 +15,26 @@ import {
   StyledContentContainer,
 } from "../styles/styledComponents";
 
+interface IFormValues extends IUser{
+  apiError: {
+    message?: string;
+    ref?: Element 
+  }
+  errors: {
+    username?: {
+      message: string
+    }
+    password?: string
+  }
+
+}
+
 export default function Login() {
   const router = useRouter();
 
   useEffect(() => {
-    // redirect to home if already logged in
     if (userService.userValue) {
-      router.push("/");
+      router.push(Paths.HOME);
     }
   }, []);
 
@@ -30,15 +43,15 @@ export default function Login() {
     password: Yup.string().required(messages.PASSWORD_REQUIRED),
   });
   const formOptions = { resolver: yupResolver(validationSchema) };
+  
+  const { register, handleSubmit, setError, formState } = useForm<IFormValues>(formOptions);
+  const errors = formState.errors;
 
-  const { register, handleSubmit, setError, formState } = useForm(formOptions);
-  const { errors } = formState;
-
-  function onSubmit({ username, password }) {
+  function onSubmit({ username, password }: IRequestBody) {
     return userService
       .login(username, password)
       .then(() => {
-        const returnUrl = router.query.returnUrl || "/";
+        const returnUrl = router.query.returnUrl as string || Paths.HOME;
         router.push(returnUrl);
       })
       .catch((error) => {
@@ -57,27 +70,21 @@ export default function Login() {
         <StyledHeaderRadius bg="bg-light">Login</StyledHeaderRadius>
         <StyledContainer>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <div>
               <StyledInput
                 marginTop="0"
-                name="username"
                 type="text"
                 placeholder="User Name"
                 {...register("username")}
                 className={`${errors.username ? "is-invalid" : ""}`}
               />
               <div className="invalid-feedback">{errors.username?.message}</div>
-            </div>
-            <div className="form-group">
               <StyledInput
-                name="password"
                 type="password"
                 placeholder="Password"
                 {...register("password")}
                 className={`${errors.password ? "is-invalid" : ""}`}
               />
               <div className="invalid-feedback">{errors.password?.message}</div>
-            </div>
             <StyledButton disabled={formState.isSubmitting}>
               {formState.isSubmitting && (
                 <span className="spinner-border spinner-border-sm mr-1"></span>

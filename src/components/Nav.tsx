@@ -1,14 +1,16 @@
 import { useState, useEffect } from "react";
-
 import { NavLink } from "./NavLink";
 import { userService } from "../services/service";
 import { StyledNav, StyledNavItem } from "@/styles/styledComponents";
+import { IUserStorageObject, Paths } from "@/naming";
 
 export function Nav() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<null | IUserStorageObject>(null);
 
   useEffect(() => {
-    const subscription = userService.user.subscribe((x) => setUser(x));
+    const subscription = userService.user.subscribe((singleUser) =>
+      setUser(singleUser)
+    );
     return () => subscription.unsubscribe();
   }, []);
 
@@ -21,10 +23,10 @@ export function Nav() {
 
   return (
     <StyledNav>
-      <NavLink href="/" exact>
+      <NavLink href={Paths.HOME} exact>
         <StyledNavItem>Home</StyledNavItem>
       </NavLink>
-      <NavLink href="/charts" exact>
+      <NavLink href={Paths.CHARTS} exact>
         <StyledNavItem>Charts</StyledNavItem>
       </NavLink>
       <a onClick={logout}>

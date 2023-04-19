@@ -6,12 +6,15 @@ import {
   StyledContentContainer,
   StyledHeader6,
 } from "../styles/styledComponents";
+import { IUserNoPassword } from "@/naming";
 
 export default function Home() {
-  const [users, setUsers] = useState(null);
+  const [users, setUsers] = useState<null | IUserNoPassword[]>(null);
 
   useEffect(() => {
-    userService.getAll().then((x) => setUsers(x));
+    userService.getAll().then((x) => {
+      setUsers(x);
+      console.log('XXX',x)});
   }, []);
 
   return (

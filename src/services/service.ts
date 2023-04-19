@@ -10,7 +10,6 @@ const baseUrl = `${publicRuntimeConfig.apiUrl}`;
 
 let userSubject = new BehaviorSubject<IUserStorageObject | null>(null);
 const ISSERVER = typeof window === "undefined";
-// console.log(ISSERVER);
 if (!ISSERVER) {
   const userData = localStorage.getItem(LocalStorageAppeal) as string;
   userSubject = new BehaviorSubject(JSON.parse(userData));
@@ -30,8 +29,6 @@ function login(username: string, password: string) {
   return fetchMethods
     .post(`${baseUrl}${Paths.AUTHENTICATE}`, { username, password })
     .then((user: IUserStorageObject) => {
-      console.log("USER =", user);
-      // publish user to subscribers and store in local storage to stay logged in between page refreshes
       userSubject.next(user);
       localStorage.setItem(LocalStorageAppeal, JSON.stringify(user));
 

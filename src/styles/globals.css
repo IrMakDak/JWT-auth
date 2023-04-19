@@ -23,3 +23,6 @@ li{
 .active{
     border: 1px solid #f0f0f0;
 }
+.invalid-feedback{
+    color: red
+}

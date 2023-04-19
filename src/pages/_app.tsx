@@ -4,7 +4,6 @@ import { useRouter } from "next/router";
 import { userService } from "../services/service";
 import { Nav } from "../components/Nav";
 import { RouterEvents, Paths, IProps } from "@/naming";
-import Script from "next/script";
 
 import '../styles/globals.css';
 
@@ -18,17 +17,13 @@ export default function App({ Component, pageProps }:IProperties) {
   const [authorized, setAuthorized] = useState(false);
 
   useEffect(() => {
-    // run auth check on initial load
     authCheck(router.asPath);
 
-    // set authorized to false to hide page content while changing routes
     const hideContent = () => setAuthorized(false);
     router.events.on(RouterEvents.CHANGESTART, hideContent);
 
-    // run auth check on route change
     router.events.on(RouterEvents.CHANGECOMPLETE, authCheck);
 
-    // unsubscribe from events in useEffect return function
     return () => {
       router.events.off(RouterEvents.CHANGESTART, hideContent);
       router.events.off(RouterEvents.CHANGECOMPLETE, authCheck);
@@ -61,7 +56,7 @@ export default function App({ Component, pageProps }:IProperties) {
           {authorized && <Component {...pageProps} />}
         </div>
       </div>
-      <Script src="https://cdn.jsdelivr.net/npm/chart.js"></Script>
+      {/* <Script src="https://cdn.jsdelivr.net/npm/chart.js"></Script> */}
     </>
   );
 }

@@ -3,19 +3,33 @@ import {
   StyledChartContainer,
 } from "../styles/styledComponents";
 import Chart from "chart.js/auto";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { CategoryScale } from "chart.js";
 import { Pie, Bar } from "react-chartjs-2";
 import { Data } from "../data/chartsData";
+import {ChartTitle} from "../naming";
 
 Chart.register(CategoryScale);
 
+interface IDataSets {
+  label: string,
+  data: number[],
+  borderWidth?: number
+}
+interface ICharData {
+  labels: number[];
+  datasets: IDataSets[]
+}
+interface IMyProps {
+  chartData: ICharData,
+}
+
 export default function Charts() {
-  const [chartData, setChartData] = useState({
+  const [chartData, setChartData] = useState<ICharData>({
     labels: Data.map((data) => data.year),
     datasets: [
       {
-        label: "Users Gained ",
+        label: "Users Gained",
         data: Data.map((data) => data.userGain),
         borderWidth: 1,
       },
@@ -30,17 +44,20 @@ export default function Charts() {
     </>
   );
 }
-function BarChart({ chartData }) {
+
+
+const BarChart = (props: IMyProps) =>  {
+  console.log(props)
   return (
     <StyledChartContainer>
       <h2>Bar Chart</h2>
       <Bar
-        data={chartData}
+        data={props.chartData}
         options={{
           plugins: {
             title: {
               display: true,
-              text: "Users Gained between 2016-2020",
+              text: ChartTitle,
             },
             legend: {
               display: false,
@@ -51,17 +68,17 @@ function BarChart({ chartData }) {
     </StyledChartContainer>
   );
 }
-function PieChart({ chartData }) {
+function PieChart(props: IMyProps) {
   return (
     <StyledChartContainer>
       <h2>Pie Chart</h2>
       <Pie
-        data={chartData}
+        data={props.chartData}
         options={{
           plugins: {
             title: {
               display: true,
-              text: "Users Gained between 2016-2020",
+              text: ChartTitle,
             },
           },
         }}
