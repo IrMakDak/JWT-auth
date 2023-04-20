@@ -10,6 +10,7 @@
 - 🌼 Styled Components
 - 🌸 RxJS
 - 📝 react-chartjs-2
+- 🐙 Redux Toolkit
 - ***
 
 ### Install
@@ -38,7 +39,7 @@ npm run dev
 
 ![Screenshot 2023-04-19 at 13 39 59](https://user-images.githubusercontent.com/54810215/233115211-90635684-184f-4844-970f-7fa1cd6d020f.png)
 
-![Screenshot 2023-04-19 at 13 39 40](https://user-images.githubusercontent.com/54810215/233115251-74069cc2-fb83-435c-bef2-c73f55e49ace.png)
+![Screenshot 2023-04-20 at 10 15 21](https://user-images.githubusercontent.com/54810215/233303727-9257c0b5-4bf8-4c91-8352-d39e892995b9.png)
 
 ---
 
