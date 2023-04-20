@@ -31,7 +31,7 @@ function handler(request: Request, result: NextApiResponse) {
 
     if (!user) throw messages.INCORRECT_DATA;
 
-    // create a jwt token that is valid for 7 days
+    //jwt token will be valid for 7 days
     const token = jwt.sign({ sub: user.id }, serverRuntimeConfig.secret, {
       expiresIn: "7d",
     });

@@ -1,7 +1,7 @@
 export const contentTypeHeader = {
   "Content-Type": "application/json",
 };
-
+export const serverURL = "localhost:9000/";
 export const LocalStorageAppeal = "user";
 export const CSSActiveClass = " active";
 export const ChartTitle = "Users Gained between 2016-2020";

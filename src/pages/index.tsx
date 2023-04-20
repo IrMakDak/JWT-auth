@@ -14,7 +14,7 @@ export default function Home() {
   useEffect(() => {
     userService.getAll().then((x) => {
       setUsers(x);
-      console.log('XXX',x)});
+    });
   }, []);
 
   return (

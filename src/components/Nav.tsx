@@ -1,11 +1,14 @@
 import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { NavLink } from "./NavLink";
 import { userService } from "../services/service";
 import { StyledNav, StyledNavItem } from "@/styles/styledComponents";
 import { IUserStorageObject, Paths } from "@/naming";
+import { signout } from "@/pages/appSlice";
 
 export function Nav() {
   const [user, setUser] = useState<null | IUserStorageObject>(null);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const subscription = userService.user.subscribe((singleUser) =>
@@ -16,6 +19,7 @@ export function Nav() {
 
   function logout() {
     userService.logout();
+    dispatch(signout());
   }
 
   // only show nav when logged in

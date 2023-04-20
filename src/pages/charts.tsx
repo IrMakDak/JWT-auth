@@ -7,25 +7,23 @@ import { useState } from "react";
 import { CategoryScale } from "chart.js";
 import { Pie, Bar } from "react-chartjs-2";
 import { Data } from "../data/chartsData";
-import {ChartTitle} from "../naming";
+import { ChartTitle } from "../naming";
+import { useDispatch, useSelector } from "react-redux";
 
 Chart.register(CategoryScale);
 
 interface IDataSets {
-  label: string,
-  data: number[],
-  borderWidth?: number
+  label?: string;
+  data: number[];
+  borderWidth?: number;
 }
-interface ICharData {
+interface IChartData {
   labels: number[];
-  datasets: IDataSets[]
-}
-interface IMyProps {
-  chartData: ICharData,
+  datasets: IDataSets[];
 }
 
 export default function Charts() {
-  const [chartData, setChartData] = useState<ICharData>({
+  const [chartData, setChartData] = useState<IChartData>({
     labels: Data.map((data) => data.year),
     datasets: [
       {
@@ -45,14 +43,12 @@ export default function Charts() {
   );
 }
 
-
-const BarChart = (props: IMyProps) =>  {
-  console.log(props)
+const BarChart = ({ chartData }: ICharData) => {
   return (
     <StyledChartContainer>
       <h2>Bar Chart</h2>
       <Bar
-        data={props.chartData}
+        data={chartData}
         options={{
           plugins: {
             title: {
@@ -67,13 +63,13 @@ const BarChart = (props: IMyProps) =>  {
       />
     </StyledChartContainer>
   );
-}
-function PieChart(props: IMyProps) {
+};
+function PieChart({ chartData }: ICharData) {
   return (
     <StyledChartContainer>
       <h2>Pie Chart</h2>
       <Pie
-        data={props.chartData}
+        data={chartData}
         options={{
           plugins: {
             title: {

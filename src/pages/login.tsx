@@ -15,18 +15,17 @@ import {
   StyledContentContainer,
 } from "../styles/styledComponents";
 
-interface IFormValues extends IUser{
+interface IFormValues extends IUser {
   apiError: {
     message?: string;
-    ref?: Element 
-  }
+    ref?: Element;
+  };
   errors: {
     username?: {
-      message: string
-    }
-    password?: string
-  }
-
+      message: string;
+    };
+    password?: string;
+  };
 }
 
 export default function Login() {
@@ -43,15 +42,16 @@ export default function Login() {
     password: Yup.string().required(messages.PASSWORD_REQUIRED),
   });
   const formOptions = { resolver: yupResolver(validationSchema) };
-  
-  const { register, handleSubmit, setError, formState } = useForm<IFormValues>(formOptions);
+
+  const { register, handleSubmit, setError, formState } =
+    useForm<IFormValues>(formOptions);
   const errors = formState.errors;
 
   function onSubmit({ username, password }: IRequestBody) {
     return userService
       .login(username, password)
       .then(() => {
-        const returnUrl = router.query.returnUrl as string || Paths.HOME;
+        const returnUrl = (router.query.returnUrl as string) || Paths.HOME;
         router.push(returnUrl);
       })
       .catch((error) => {
@@ -61,30 +61,25 @@ export default function Login() {
 
   return (
     <StyledContentContainer>
-      <StyledHeaderRadius marginBottom="0px">
-        Username: User
-        <br />
-        Password: User
-      </StyledHeaderRadius>
       <div className="card">
-        <StyledHeaderRadius bg="bg-light">Login</StyledHeaderRadius>
+        <StyledHeaderRadius marginTop="0px">Login</StyledHeaderRadius>
         <StyledContainer>
           <form onSubmit={handleSubmit(onSubmit)}>
-              <StyledInput
-                marginTop="0"
-                type="text"
-                placeholder="User Name"
-                {...register("username")}
-                className={`${errors.username ? "is-invalid" : ""}`}
-              />
-              <div className="invalid-feedback">{errors.username?.message}</div>
-              <StyledInput
-                type="password"
-                placeholder="Password"
-                {...register("password")}
-                className={`${errors.password ? "is-invalid" : ""}`}
-              />
-              <div className="invalid-feedback">{errors.password?.message}</div>
+            <StyledInput
+              marginTop="0"
+              type="text"
+              placeholder="User Name"
+              {...register("username")}
+              className={`${errors.username ? "is-invalid" : ""}`}
+            />
+            <div className="invalid-feedback">{errors.username?.message}</div>
+            <StyledInput
+              type="password"
+              placeholder="Password"
+              {...register("password")}
+              className={`${errors.password ? "is-invalid" : ""}`}
+            />
+            <div className="invalid-feedback">{errors.password?.message}</div>
             <StyledButton disabled={formState.isSubmitting}>
               {formState.isSubmitting && (
                 <span className="spinner-border spinner-border-sm mr-1"></span>

@@ -37,6 +37,7 @@ export const StyledNavItem = styled.div`
 
 export const StyledHeaderRadius = styled(StyledHeader)`
   border-radius: 0.25rem;
+  margin-top: ${(props) => (props.marginTop === "0px" ? "0px" : "20px")};
 `;
 
 export const StyledInput = styled.input`
@@ -62,6 +63,7 @@ export const StyledContentContainer = styled.div`
   width: 900px;
   margin: 0 auto;
   background: #fff;
+  margin-top: 100px;
 `;
 
 export const StyledErrorMessage = styled.div`
