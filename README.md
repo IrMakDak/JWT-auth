@@ -23,6 +23,14 @@ npm run dev
 
 ---
 
+### To enter
+
+login: User
+
+Password: User
+
+---
+
 ### :hammer_and_wrench: Languages and Tools that have been used:
 
 <div>
@@ -37,9 +45,11 @@ npm run dev
 
 ### Screenshots:
 
-![Screenshot 2023-04-19 at 13 39 59](https://user-images.githubusercontent.com/54810215/233115211-90635684-184f-4844-970f-7fa1cd6d020f.png)
+![Screenshot 2023-04-21 at 14 17 12](https://user-images.githubusercontent.com/54810215/233633417-91af007a-24fd-4c19-b9fc-507e828f454a.png)
 
-![Screenshot 2023-04-20 at 10 15 21](https://user-images.githubusercontent.com/54810215/233303727-9257c0b5-4bf8-4c91-8352-d39e892995b9.png)
+![Screenshot 2023-04-21 at 14 17 32](https://user-images.githubusercontent.com/54810215/233633447-86128447-e48d-4135-9910-6dd46cb79b86.png)
+
+![Screenshot 2023-04-21 at 14 17 41](https://user-images.githubusercontent.com/54810215/233633470-31b325f3-64e7-4c30-928e-6ce3858061db.png)
 
 ---
 
