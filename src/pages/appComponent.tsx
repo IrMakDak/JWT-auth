@@ -4,8 +4,6 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { userService } from "../services/service";
 import { selectCount, signin, signout } from "./appSlice";
-import Head from "next/head";
-import { Nav } from "../components/Nav";
 
 export interface IProperties {
   Component: Function;
@@ -40,30 +38,20 @@ export const AppComponent = ({ Component, pageProps }: IProperties) => {
   });
 
   function authCheck(url: string) {
-    const publicPaths = [Paths.LOGIN.toString()];
+    const publicPaths = [
+      Paths.LOGIN.toString(),
+      Paths.HOME.toString(),
+      Paths.CHARTS.toString(),
+    ];
     const path = url.split("?")[0];
 
     if (!userService.userValue && !publicPaths.includes(path)) {
       hideContent();
       router.push({
-        pathname: Paths.LOGIN,
+        pathname: Paths.HOME,
         query: { returnUrl: router.asPath },
       });
-    } else {
-      showContent();
     }
   }
-  return (
-    <>
-      <Head>
-        <title>JWT Authentication</title>
-      </Head>
-      <div>
-        <Nav />
-        <div className="container pt-4 pb-4">
-          {authorizedStatus && <Component {...pageProps} />}
-        </div>
-      </div>
-    </>
-  );
+  return <>{<Component {...pageProps} />}</>;
 };

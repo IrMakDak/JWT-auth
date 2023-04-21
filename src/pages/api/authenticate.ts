@@ -29,7 +29,9 @@ function handler(request: Request, result: NextApiResponse) {
       );
     }
 
-    if (!user) throw messages.INCORRECT_DATA;
+    if (!user) {
+      throw messages.INCORRECT_DATA;
+    }
 
     //jwt token will be valid for 7 days
     const token = jwt.sign({ sub: user.id }, serverRuntimeConfig.secret, {

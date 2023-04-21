@@ -1,14 +1,17 @@
 import {
-  StyledContentContainer,
-  StyledChartContainer,
-} from "../styles/styledComponents";
+  StyledSingleChart,
+  StyledContainer,
+  StyledChart,
+  StyledChartsTitles,
+  StyledChartsGraphics,
+} from "../styles/styledChartsPage";
 import Chart from "chart.js/auto";
 import { useState } from "react";
 import { CategoryScale } from "chart.js";
-import { Pie, Bar } from "react-chartjs-2";
+import { Line, Bar } from "react-chartjs-2";
 import { Data } from "../data/chartsData";
 import { ChartTitle } from "../naming";
-import { useDispatch, useSelector } from "react-redux";
+import { StyledH3 } from "../styles/styledGlobals";
 
 Chart.register(CategoryScale);
 
@@ -16,44 +19,95 @@ interface IDataSets {
   label?: string;
   data: number[];
   borderWidth?: number;
+  borderColor?: string;
 }
 interface IChartData {
   labels: number[];
   datasets: IDataSets[];
+  legend?: {
+    display: boolean;
+    position: string;
+    labels: {
+      fontColor: string;
+      fontSize: number;
+    };
+  };
 }
 
 export default function Charts() {
-  const [chartData, setChartData] = useState<IChartData>({
-    labels: Data.map((data) => data.year),
+  const [chartDataLine, setChartDataLine] = useState<IChartData>({
+    labels: Data.map((data) => data.date),
     datasets: [
       {
-        label: "Users Gained",
-        data: Data.map((data) => data.userGain),
-        borderWidth: 1,
+        label: "Входящие звонки",
+        data: Data.map((data) => data.incomingCalls),
+        borderColor: "#4F46E5",
+        background: "#4F46E5",
+        backgroundColor: "#4F46E5",
+        pointBorderColor: "#4F46E5",
+        pointBackgroundColor: "#4F46E5",
+        pointHoverBackgroundColor: "#FFFFFF",
+        tension: 0.3,
+        borderWidth: 2,
+        pointStyleWidth: true,
+        pointHoverRadius: 5,
+        pointRadius: 2,
+      },
+      {
+        label: "Исходящие звонки",
+        data: Data.map((data) => data.outgoingCalls),
+        borderColor: "#EAA43A",
+        backgroundColor: "#EAA43A",
+        pointHoverBackgroundColor: "#FFFFFF",
+        pointBorderColor: "#EAA43A",
+        pointBackgroundColor: "#EAA43A",
+        tension: 0.3,
+        pointHoverRadius: 5,
+        pointRadius: 2,
+        borderWidth: 2,
+      },
+    ],
+  });
+  const [chartDataBar, setChartDataBar] = useState<IChartData>({
+    labels: Data.map((data) => data.date),
+    datasets: [
+      {
+        data: Data.map((data) => data.outgoingCalls),
+        backgroundColor: "#F7B7CD",
+        hoverBackgroundColor: "#DB5E88",
       },
     ],
   });
   return (
     <>
-      <StyledContentContainer>
-        <BarChart chartData={chartData} />
-        <PieChart chartData={chartData} />
-      </StyledContentContainer>
+      <StyledContainer>
+        <StyledChartsTitles>
+          <StyledH3>Вся аналитика в одном кабинете</StyledH3>
+          <p>Отслеживайте работу голосового ассистента в личном кабинете</p>
+          <p>
+            Уникальные виджеты позволяют настроить дашборд под задачи различных
+            подразделений вашей компании
+          </p>
+        </StyledChartsTitles>
+        <StyledChartsGraphics>
+          <LineChart chartData={chartDataLine} />
+          <BarChart chartData={chartDataBar} />
+        </StyledChartsGraphics>
+      </StyledContainer>
     </>
   );
 }
 
-const BarChart = ({ chartData }: ICharData) => {
+const BarChart = ({ chartData }: IChartData) => {
   return (
-    <StyledChartContainer>
-      <h2>Bar Chart</h2>
+    <StyledChart>
+      <h2>Исходящие звонки</h2>
       <Bar
         data={chartData}
         options={{
           plugins: {
             title: {
               display: true,
-              text: ChartTitle,
             },
             legend: {
               display: false,
@@ -61,24 +115,44 @@ const BarChart = ({ chartData }: ICharData) => {
           },
         }}
       />
-    </StyledChartContainer>
+    </StyledChart>
   );
 };
-function PieChart({ chartData }: ICharData) {
+
+function LineChart({ chartData }: IChartData) {
+  const leg = {
+    display: true,
+    position: "top",
+    labels: {
+      fontColor: "#111827",
+      fontSize: 12,
+    },
+  };
   return (
-    <StyledChartContainer>
-      <h2>Pie Chart</h2>
-      <Pie
+    <StyledChart>
+      <h2>Звонки</h2>
+      <Line
         data={chartData}
         options={{
           plugins: {
             title: {
               display: true,
-              text: ChartTitle,
+            },
+            legend: {
+              display: true,
+              position: "bottom",
+              align: "start",
+
+              labels: {
+                boxWidth: 3.5,
+                boxHeight: 3.5,
+                usePointStyle: true,
+                pointStyle: "circle",
+              },
             },
           },
         }}
       />
-    </StyledChartContainer>
+    </StyledChart>
   );
 }

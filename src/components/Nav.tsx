@@ -1,14 +1,33 @@
 import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "./NavLink";
 import { userService } from "../services/service";
-import { StyledNav, StyledNavItem } from "@/styles/styledComponents";
-import { IUserStorageObject, Paths } from "@/naming";
+import { Link } from "./Link";
+import { useRouter } from "next/router";
+import Image from "next/image";
+import {
+  StyledNav,
+  StyledLogo,
+  StyledNavLinks,
+  StyledLogin,
+  StyledLinkText,
+  StyledLogedAccaunt,
+  StyledDropDown,
+  StyledMenu,
+  StyledButtons,
+} from "@/styles/StyledNav";
+import { IUserStorageObject, Paths, srcStore } from "@/naming";
 import { signout } from "@/pages/appSlice";
+import { selectCount, selectUser } from "../pages/appSlice";
 
 export function Nav() {
   const [user, setUser] = useState<null | IUserStorageObject>(null);
+
+  const authorizedStatus = useSelector(selectCount);
+  const { userFirstName, userSecondName } = useSelector(selectUser);
   const dispatch = useDispatch();
+
+  const { pathname } = useRouter();
 
   useEffect(() => {
     const subscription = userService.user.subscribe((singleUser) =>
@@ -21,21 +40,63 @@ export function Nav() {
     userService.logout();
     dispatch(signout());
   }
-
-  // only show nav when logged in
-  if (!user) return null;
+  if (pathname === Paths.LOGIN) {
+    return null;
+  }
 
   return (
     <StyledNav>
-      <NavLink href={Paths.HOME} exact>
-        <StyledNavItem>Home</StyledNavItem>
-      </NavLink>
-      <NavLink href={Paths.CHARTS} exact>
-        <StyledNavItem>Charts</StyledNavItem>
-      </NavLink>
-      <a onClick={logout}>
-        <StyledNavItem>Logout</StyledNavItem>
-      </a>
+      <Link href={Paths.HOME}>
+        <StyledLogo>
+          <Image
+            src={`${srcStore}/Logo-expanded.svg`}
+            alt="logo"
+            width={195}
+            height={35}
+          />
+        </StyledLogo>
+      </Link>
+      <StyledNavLinks>
+        <NavLink href={Paths.HOME} exact>
+          <StyledLinkText>О нас</StyledLinkText>
+        </NavLink>
+        <NavLink href={Paths.CHARTS} exact>
+          <StyledLinkText>Платформа</StyledLinkText>
+        </NavLink>
+        <StyledLinkText>Портфолио</StyledLinkText>
+        <StyledLinkText>Контакты</StyledLinkText>
+      </StyledNavLinks>
+
+      <StyledButtons>
+        {authorizedStatus ? (
+          <StyledDropDown>
+            <StyledLogedAccaunt>
+              {userFirstName} {userSecondName.slice(0, 1)}.
+              <i class="fa fa-caret-down"></i>
+            </StyledLogedAccaunt>
+            <div class="drop-content">
+              <StyledLogin onClick={logout}>Выйти</StyledLogin>
+            </div>
+          </StyledDropDown>
+        ) : (
+          <StyledLogin onClick={logout}>Войти</StyledLogin>
+        )}
+        <StyledDropDown>
+          <StyledMenu onClick={() => setOpenMenu(!openMenu)}>
+            &#9776;
+          </StyledMenu>
+          <div class="drop-menu">
+            <NavLink href={Paths.HOME} exact>
+              <StyledLinkText>О нас</StyledLinkText>
+            </NavLink>
+            <NavLink href={Paths.CHARTS} exact>
+              <StyledLinkText>Платформа</StyledLinkText>
+            </NavLink>
+            <StyledLinkText>Портфолио</StyledLinkText>
+            <StyledLinkText>Контакты</StyledLinkText>
+          </div>
+        </StyledDropDown>
+      </StyledButtons>
     </StyledNav>
   );
 }

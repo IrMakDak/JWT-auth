@@ -5,15 +5,28 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 
 import { userService } from "../services/service";
-import { messages, IRequestBody, Paths, IUser } from "../naming";
+import { Link } from "../components/Link";
+import { messages, IRequestBody, Paths, IUser, srcStore } from "../naming";
+import { StyledErrorMessage, StyledButton } from "../styles/styledMain";
+import { useDispatch } from "react-redux";
+import { setUsername, signin } from "./appSlice";
 import {
-  StyledHeaderRadius,
+  StyledAuthorizationContainer,
+  StyledAnalyticsContainer,
+  StyledLoginPage,
+  StyledTitle,
+  StyledEntrance,
   StyledInput,
-  StyledContainer,
-  StyledErrorMessage,
-  StyledButton,
-  StyledContentContainer,
-} from "../styles/styledComponents";
+  StyledForm,
+  StyledAdditionalProps,
+  StyledCheckbox,
+  StyledLabel,
+  StyledLink,
+  StyledLogo,
+  StyledDashboard,
+  StyledCalls,
+  StyledAnalyticsLabel,
+} from "../styles/styledLoginPage";
 
 interface IFormValues extends IUser {
   apiError: {
@@ -30,6 +43,7 @@ interface IFormValues extends IUser {
 
 export default function Login() {
   const router = useRouter();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (userService.userValue) {
@@ -50,9 +64,15 @@ export default function Login() {
   function onSubmit({ username, password }: IRequestBody) {
     return userService
       .login(username, password)
-      .then(() => {
+      .then((user) => {
+        const userInfo = {
+          firstName: user.firstName,
+          secondName: user.lastName,
+        };
         const returnUrl = (router.query.returnUrl as string) || Paths.HOME;
         router.push(returnUrl);
+        dispatch(setUsername(userInfo));
+        dispatch(signin());
       })
       .catch((error) => {
         setError("apiError", { message: error });
@@ -60,11 +80,14 @@ export default function Login() {
   }
 
   return (
-    <StyledContentContainer>
-      <div className="card">
-        <StyledHeaderRadius marginTop="0px">Login</StyledHeaderRadius>
-        <StyledContainer>
-          <form onSubmit={handleSubmit(onSubmit)}>
+    <StyledLoginPage>
+      <StyledAuthorizationContainer>
+        <StyledEntrance>
+          <Link href={Paths.HOME}>
+            <StyledLogo src={`${srcStore}/Logo-expanded.svg`} alt="Logo" />
+          </Link>
+          <StyledTitle>Вход</StyledTitle>
+          <StyledForm onSubmit={handleSubmit(onSubmit)}>
             <StyledInput
               marginTop="0"
               type="text"
@@ -80,20 +103,40 @@ export default function Login() {
               className={`${errors.password ? "is-invalid" : ""}`}
             />
             <div className="invalid-feedback">{errors.password?.message}</div>
+            <StyledAdditionalProps>
+              <StyledLabel>
+                <StyledCheckbox type="checkbox" />
+                Запомнить меня?
+              </StyledLabel>
+
+              <StyledLink href="#">Забыли пароль?</StyledLink>
+            </StyledAdditionalProps>
             <StyledButton disabled={formState.isSubmitting}>
               {formState.isSubmitting && (
                 <span className="spinner-border spinner-border-sm mr-1"></span>
               )}
-              Login
+              Войти
             </StyledButton>
             {errors.apiError && (
               <StyledErrorMessage>
                 {errors.apiError?.message}
               </StyledErrorMessage>
             )}
-          </form>
-        </StyledContainer>
-      </div>
-    </StyledContentContainer>
+          </StyledForm>
+        </StyledEntrance>
+      </StyledAuthorizationContainer>
+
+      <StyledAnalyticsContainer>
+        <StyledCalls src={`${srcStore}/Calls.png`} alt="calls" />
+        <StyledDashboard src={`${srcStore}/Dashboard.png`} alt="dashboard" />
+        <StyledAnalyticsLabel>
+          <h6>Вся аналитика в одном кабинете</h6>
+          <p>
+            Теперь просматривать аналитику и создавать отчёты можно без нашей
+            помощи
+          </p>
+        </StyledAnalyticsLabel>
+      </StyledAnalyticsContainer>
+    </StyledLoginPage>
   );
 }

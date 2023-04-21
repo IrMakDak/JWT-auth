@@ -2,6 +2,10 @@ module.exports = {
   serverRuntimeConfig: {
     secret: "Ir",
   },
+  compiler: {
+    // Enables the styled-components SWC transform
+    styledComponents: true,
+  },
   nextConfig: {
     reactStrictMode: true,
     experimental: {
@@ -11,7 +15,7 @@ module.exports = {
   publicRuntimeConfig: {
     apiUrl:
       process.env.NODE_ENV === "development"
-        ? "http://localhost:4200/api" // development api
-        : "http://localhost:4200/api", // production api
+        ? "http://localhost:3000/api" // development api
+        : "http://localhost:3000/api", // production api
   },
 };

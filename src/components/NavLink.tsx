@@ -14,6 +14,5 @@ export function NavLink({ children, href, exact, ...props }: IProps) {
     <Link href={href} {...props}>
       {children}
     </Link>
-    
   );
 }

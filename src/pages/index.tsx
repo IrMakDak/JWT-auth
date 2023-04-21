@@ -1,12 +1,17 @@
 import { useState, useEffect } from "react";
 import { userService } from "../services/service";
 import {
-  StyledHeader,
-  StyledContainer,
   StyledContentContainer,
-  StyledHeader6,
-} from "../styles/styledComponents";
-import { IUserNoPassword } from "@/naming";
+  StyledH1,
+  StyledMainInfo,
+  StyledMainDescription,
+  StyledMainButton,
+  StyledMainPhotoContainer,
+  StyledMainPhotoBg,
+  StyledAdvantages,
+  StyledAdvantagesItem,
+} from "../styles/styledMain";
+import { IUserNoPassword, srcStore } from "@/naming";
 
 export default function Home() {
   const [users, setUsers] = useState<null | IUserNoPassword[]>(null);
@@ -19,20 +24,37 @@ export default function Home() {
 
   return (
     <StyledContentContainer>
-      <StyledHeader marginTop="0px">You&apos;re logged in</StyledHeader>
-      <StyledContainer>
-        <StyledHeader6>Available Users</StyledHeader6>
-        {users && (
-          <ul>
-            {users.map((user) => (
-              <li key={user.id}>
-                {user.firstName} {user.lastName}
-              </li>
-            ))}
-          </ul>
-        )}
-        {!users && <div className="spinner-border spinner-border-sm"></div>}
-      </StyledContainer>
+      <StyledMainInfo>
+        <StyledH1>
+          Голосовые ассистенты <span>SmartDialogs</span>
+        </StyledH1>
+        <StyledMainDescription>
+          В звонках бот ведёт осмысленный диалог и совершенно неотличим
+          от живого оператора. Автоматизируйте телефонные звонки с помощью ИИ.
+        </StyledMainDescription>
+        <StyledMainButton>Оставить заявку</StyledMainButton>
+      </StyledMainInfo>
+      <StyledMainPhotoBg>
+        <StyledMainPhotoContainer src={`${srcStore}/photo.jpg`} alt="person" />
+      </StyledMainPhotoBg>
+
+      <StyledAdvantages>
+        <StyledAdvantagesItem>
+          <span>3 года на рынке</span>Более 1000 разработанных ботов в РФ
+          и зарубежом
+        </StyledAdvantagesItem>
+        <StyledAdvantagesItem>
+          <span>Честная цена</span>Оплата только за использованные минуты
+        </StyledAdvantagesItem>
+        <StyledAdvantagesItem>
+          <span>Скорость</span>Запускаем проекты за 3 недели, не теряя
+          в качестве
+        </StyledAdvantagesItem>
+        <StyledAdvantagesItem>
+          <span>Личный кабинет</span>Отслеживание результатов звонков в личном
+          кабинете
+        </StyledAdvantagesItem>
+      </StyledAdvantages>
     </StyledContentContainer>
   );
 }
