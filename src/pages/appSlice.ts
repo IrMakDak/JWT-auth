@@ -34,13 +34,19 @@ const appSlice = createSlice({
         userSecondName: action.payload.secondName,
       };
     },
+    cleanUser(state) {
+      state.userInfo = {
+        userFirstName: undefined,
+        userSecondName: undefined,
+      };
+    },
   },
 });
 
 const { actions, reducer } = appSlice;
 
 export default reducer;
-export const { signin, signout, setUsername } = actions;
+export const { signin, signout, setUsername, cleanUser } = actions;
 
 export const selectCount = (state: RootState) => state.auth.authorizedStatus;
 export const selectUser = (state: RootState) => state.auth.userInfo;

@@ -17,7 +17,7 @@ import {
   StyledButtons,
 } from "@/styles/StyledNav";
 import { IUserStorageObject, Paths, srcStore } from "@/naming";
-import { signout } from "@/pages/appSlice";
+import { signout, cleanUser } from "@/pages/appSlice";
 import { selectCount, selectUser } from "../pages/appSlice";
 
 export function Nav() {
@@ -39,6 +39,7 @@ export function Nav() {
   function logout() {
     userService.logout();
     dispatch(signout());
+    dispatch(cleanUser());
   }
   if (pathname === Paths.LOGIN) {
     return null;
@@ -71,7 +72,7 @@ export function Nav() {
         {userFirstName && userSecondName ? (
           <StyledDropDown>
             <StyledLogedAccaunt>
-              {userFirstName} {userSecondName?.slice(0, 1)}.
+              {userFirstName} {userSecondName.slice(0, 1)}.
             </StyledLogedAccaunt>
             <div className="drop-content">
               <StyledLogin onClick={logout}>Выйти</StyledLogin>

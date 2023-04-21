@@ -72,6 +72,7 @@ export default function Login() {
         const returnUrl = (router.query.returnUrl as string) || Paths.HOME;
         router.push(returnUrl);
         dispatch(setUsername(userInfo));
+        console.log("dispached");
         dispatch(signin());
       })
       .catch((error) => {
