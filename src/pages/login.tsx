@@ -47,7 +47,7 @@ export default function Login() {
 
   useEffect(() => {
     if (userService.userValue) {
-      router.push(Paths.HOME);
+      router.push(Paths.AUTH);
     }
   }, []);
 

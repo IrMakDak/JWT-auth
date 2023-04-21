@@ -46,12 +46,13 @@ export const AppComponent = ({ Component, pageProps }: IProperties) => {
     const path = url.split("?")[0];
 
     if (!userService.userValue && !publicPaths.includes(path)) {
-      hideContent();
       router.push({
-        pathname: Paths.HOME,
+        pathname: Paths.LOGIN,
         query: { returnUrl: router.asPath },
       });
+    } else {
+      showContent();
     }
   }
-  return <>{<Component {...pageProps} />}</>;
+  return <>{authorizedStatus && <Component {...pageProps} />}</>;
 };

@@ -11,9 +11,9 @@ import {
   StyledAdvantages,
   StyledAdvantagesItem,
 } from "../styles/styledMain";
-import { IUserNoPassword, srcStore, Paths } from "@/naming";
+import { IUserNoPassword, srcStore } from "@/naming";
 
-export default function Home() {
+export default function Auth() {
   const [users, setUsers] = useState<null | IUserNoPassword[]>(null);
 
   useEffect(() => {
@@ -32,9 +32,7 @@ export default function Home() {
           В звонках бот ведёт осмысленный диалог и совершенно неотличим
           от живого оператора. Автоматизируйте телефонные звонки с помощью ИИ.
         </StyledMainDescription>
-        <StyledMainButton>
-          <a href={Paths.AUTH}>Оставить заявку</a>
-        </StyledMainButton>
+        <StyledMainButton>Оставить заявку</StyledMainButton>
       </StyledMainInfo>
       <StyledMainPhotoBg>
         <StyledMainPhotoContainer src={`${srcStore}/photo.jpg`} alt="person" />

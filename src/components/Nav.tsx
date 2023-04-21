@@ -68,13 +68,12 @@ export function Nav() {
       </StyledNavLinks>
 
       <StyledButtons>
-        {authorizedStatus ? (
+        {userFirstName && userSecondName ? (
           <StyledDropDown>
             <StyledLogedAccaunt>
-              {userFirstName} {userSecondName.slice(0, 1)}.
-              <i class="fa fa-caret-down"></i>
+              {userFirstName} {userSecondName?.slice(0, 1)}.
             </StyledLogedAccaunt>
-            <div class="drop-content">
+            <div className="drop-content">
               <StyledLogin onClick={logout}>Выйти</StyledLogin>
             </div>
           </StyledDropDown>
@@ -82,10 +81,8 @@ export function Nav() {
           <StyledLogin onClick={logout}>Войти</StyledLogin>
         )}
         <StyledDropDown>
-          <StyledMenu onClick={() => setOpenMenu(!openMenu)}>
-            &#9776;
-          </StyledMenu>
-          <div class="drop-menu">
+          <StyledMenu>&#9776;</StyledMenu>
+          <div className="drop-menu">
             <NavLink href={Paths.HOME} exact>
               <StyledLinkText>О нас</StyledLinkText>
             </NavLink>
@@ -93,6 +90,7 @@ export function Nav() {
               <StyledLinkText>Платформа</StyledLinkText>
             </NavLink>
             <StyledLinkText>Портфолио</StyledLinkText>
+
             <StyledLinkText>Контакты</StyledLinkText>
           </div>
         </StyledDropDown>

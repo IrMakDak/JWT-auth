@@ -31,6 +31,7 @@ function login(username: string, password: string) {
     .then((user: IUserStorageObject) => {
       userSubject.next(user);
       localStorage.setItem(LocalStorageAppeal, JSON.stringify(user));
+      Router.push(Paths.AUTH);
       return user;
     });
 }

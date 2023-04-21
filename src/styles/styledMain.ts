@@ -84,6 +84,10 @@ export const StyledMainButton = styled.button`
   border: 0;
   margin-top: 60px;
   cursor: pointer;
+
+  a {
+    color: #fff;
+  }
   &:hover {
     transition-duration: 0.3s;
     background: #433bc2;

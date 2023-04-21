@@ -28,6 +28,7 @@ export enum Paths {
   AUTHENTICATE = "/authenticate",
   HOME = "/",
   CHARTS = "/charts",
+  AUTH = "/auth",
 }
 export interface IProps {
   href: string;
