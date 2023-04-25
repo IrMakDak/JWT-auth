@@ -5,7 +5,6 @@ import {
   StyledChartsGraphics,
 } from "../styles/styledChartsPage";
 import Chart from "chart.js/auto";
-import { useState } from "react";
 import { CategoryScale } from "chart.js";
 import { Line, Bar } from "react-chartjs-2";
 import { Data } from "../data/chartsData";
@@ -24,7 +23,7 @@ interface BarProps {
 }
 
 export default function Charts() {
-  const [chartDataLine, setChartDataLine] = useState({
+  const chartDataLine = {
     labels: Data.map((data) => data.date),
     datasets: [
       {
@@ -56,8 +55,8 @@ export default function Charts() {
         borderWidth: 2,
       },
     ],
-  });
-  const [chartDataBar, setChartDataBar] = useState({
+  };
+  const chartDataBar = {
     labels: Data.map((data) => data.date),
     datasets: [
       {
@@ -66,7 +65,36 @@ export default function Charts() {
         hoverBackgroundColor: "#DB5E88",
       },
     ],
-  });
+  };
+  const chartOptionsLine = {
+    plugins: {
+      title: {
+        display: true,
+      },
+      legend: {
+        display: true,
+        position: "bottom",
+        align: "start",
+
+        labels: {
+          boxWidth: 3.5,
+          boxHeight: 3.5,
+          usePointStyle: true,
+          pointStyle: "circle",
+        },
+      },
+    },
+  };
+  const chartOptionsBar = {
+    plugins: {
+      title: {
+        display: true,
+      },
+      legend: {
+        display: false,
+      },
+    },
+  };
   return (
     <>
       <StyledContainer>
@@ -79,61 +107,28 @@ export default function Charts() {
           </p>
         </StyledChartsTitles>
         <StyledChartsGraphics>
-          <LineChart chartData={chartDataLine} />
-          <BarChart chartData={chartDataBar} />
+          <LineChart chartData={chartDataLine} options={chartOptionsLine} />
+          <BarChart chartData={chartDataBar} options={chartOptionsBar} />
         </StyledChartsGraphics>
       </StyledContainer>
     </>
   );
 }
 
-const BarChart = ({ chartData }: BarProps) => {
+const BarChart = ({ chartData, options }: BarProps) => {
   return (
     <StyledChart>
       <h2>Исходящие звонки</h2>
-      <Bar
-        data={chartData}
-        options={{
-          plugins: {
-            title: {
-              display: true,
-            },
-            legend: {
-              display: false,
-            },
-          },
-        }}
-      />
+      <Bar data={chartData} options={options} />
     </StyledChart>
   );
 };
 
-function LineChart({ chartData }: LineProps) {
+const LineChart = ({ chartData, options }: LineProps) => {
   return (
     <StyledChart>
       <h2>Звонки</h2>
-      <Line
-        data={chartData}
-        options={{
-          plugins: {
-            title: {
-              display: true,
-            },
-            legend: {
-              display: true,
-              position: "bottom",
-              align: "start",
-
-              labels: {
-                boxWidth: 3.5,
-                boxHeight: 3.5,
-                usePointStyle: true,
-                pointStyle: "circle",
-              },
-            },
-          },
-        }}
-      />
+      <Line data={chartData} options={options} />
     </StyledChart>
   );
-}
+};
