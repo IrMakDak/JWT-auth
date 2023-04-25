@@ -21,9 +21,7 @@ export default function App(pageProps: IProperties) {
       </Head>
       <GlobalStyles />
       <Nav />
-      <div>
-        <AppComponent {...pageProps} />
-      </div>
+      <AppComponent {...pageProps} />
     </Provider>
   );
 }

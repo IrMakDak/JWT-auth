@@ -1,5 +1,4 @@
 import {
-  StyledSingleChart,
   StyledContainer,
   StyledChart,
   StyledChartsTitles,
@@ -10,32 +9,22 @@ import { useState } from "react";
 import { CategoryScale } from "chart.js";
 import { Line, Bar } from "react-chartjs-2";
 import { Data } from "../data/chartsData";
-import { ChartTitle } from "../naming";
 import { StyledH3 } from "../styles/styledGlobals";
+import type { ChartData, ChartOptions } from "chart.js";
 
 Chart.register(CategoryScale);
 
-interface IDataSets {
-  label?: string;
-  data: number[];
-  borderWidth?: number;
-  borderColor?: string;
+interface LineProps {
+  options?: ChartOptions<"line">;
+  chartData: ChartData<"line">;
 }
-interface IChartData {
-  labels: number[];
-  datasets: IDataSets[];
-  legend?: {
-    display: boolean;
-    position: string;
-    labels: {
-      fontColor: string;
-      fontSize: number;
-    };
-  };
+interface BarProps {
+  options?: ChartOptions<"bar">;
+  chartData: ChartData<"bar">;
 }
 
 export default function Charts() {
-  const [chartDataLine, setChartDataLine] = useState<IChartData>({
+  const [chartDataLine, setChartDataLine] = useState({
     labels: Data.map((data) => data.date),
     datasets: [
       {
@@ -68,7 +57,7 @@ export default function Charts() {
       },
     ],
   });
-  const [chartDataBar, setChartDataBar] = useState<IChartData>({
+  const [chartDataBar, setChartDataBar] = useState({
     labels: Data.map((data) => data.date),
     datasets: [
       {
@@ -98,7 +87,7 @@ export default function Charts() {
   );
 }
 
-const BarChart = ({ chartData }: IChartData) => {
+const BarChart = ({ chartData }: BarProps) => {
   return (
     <StyledChart>
       <h2>Исходящие звонки</h2>
@@ -119,15 +108,7 @@ const BarChart = ({ chartData }: IChartData) => {
   );
 };
 
-function LineChart({ chartData }: IChartData) {
-  const leg = {
-    display: true,
-    position: "top",
-    labels: {
-      fontColor: "#111827",
-      fontSize: 12,
-    },
-  };
+function LineChart({ chartData }: LineProps) {
   return (
     <StyledChart>
       <h2>Звонки</h2>

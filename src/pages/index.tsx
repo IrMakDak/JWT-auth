@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import { userService } from "../services/service";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
+import { IUserNoPassword, srcStore, Paths } from "@/naming";
+import { selectUser } from "../pages/appSlice";
+
 import {
   StyledContentContainer,
   StyledH1,
@@ -12,13 +15,10 @@ import {
   StyledAdvantages,
   StyledAdvantagesItem,
 } from "../styles/styledMain";
-import { IUserNoPassword, srcStore, Paths } from "@/naming";
-import { selectUser } from "../pages/appSlice";
 
 export default function Home() {
   const [users, setUsers] = useState<null | IUserNoPassword[]>(null);
   const { userFirstName, userSecondName } = useSelector(selectUser);
-  const dispatch = useDispatch();
 
   useEffect(() => {
     userService.getAll().then((x) => {
@@ -37,11 +37,7 @@ export default function Home() {
           от живого оператора. Автоматизируйте телефонные звонки с помощью ИИ.
         </StyledMainDescription>
         <StyledMainButton>
-          {userFirstName !== undefined && userSecondName !== undefined ? (
-            <a href="#">Оставить заявку</a>
-          ) : (
-            <a href={Paths.AUTH}>Оставить заявку</a>
-          )}
+          <a href={Paths.AUTH}>Оставить заявку</a>
         </StyledMainButton>
       </StyledMainInfo>
       <StyledMainPhotoBg>
